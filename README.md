@@ -18,9 +18,9 @@ jobs:
       image: swift:5.7
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
     - run: swift test --enable-test-discovery --enable-code-coverage
-    - uses: step-security/swift-codecov-action@0.7.5
+    - uses: step-security/swift-codecov-action@v0
       with:
         MINIMUM_COVERAGE: 98
         INCLUDE_TESTS: 'true'
