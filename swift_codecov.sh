@@ -72,14 +72,21 @@ fi
 # The project name (root folder of target project)
 PROJECT_NAME="${INPUT_PROJECT_NAME}"
 
-# Set default location for JSON
+# Validate CODECOV_JSON — block shell metacharacters that enable command injection
+if [[ -n "$INPUT_CODECOV_JSON" ]] && [[ "$INPUT_CODECOV_JSON" =~ [';''|''&''`''$''('')''<''>'] ]]; then
+  echo "::error::Invalid CODECOV_JSON input: contains unsafe characters"
+  exit 1
+fi
 CODECOV_JSON=${INPUT_CODECOV_JSON:-.build/debug/codecov/*.json}
 
 # Set default print option
 PRINT_STDOUT=${INPUT_PRINT_STDOUT:-true}
 
-# Set default sort order
-SORT_ORDER=${INPUT_SORT_ORDER:-filename}
+# Validate SORT_ORDER against allowed values
+case "${INPUT_SORT_ORDER:-filename}" in
+  filename|+cov|-cov) SORT_ORDER="${INPUT_SORT_ORDER:-filename}" ;;
+  *) echo "::error::Invalid SORT_ORDER: must be one of 'filename', '+cov', '-cov'"; exit 1 ;;
+esac
 
 if [[ "$INPUT_INCLUDE_DEPENDENCIES" = 'true' ]]; then
   DEPS_ARG='--dependencies'
@@ -93,10 +100,14 @@ else
   TESTS_ARG='--no-tests'
 fi
 
+# Validate MINIMUM_COVERAGE is numeric
 if [[ "$INPUT_MINIMUM_COVERAGE" = '' ]]; then
   MIN_COV_ARG=''
-else
+elif [[ "$INPUT_MINIMUM_COVERAGE" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
   MIN_COV_ARG="--minimum $INPUT_MINIMUM_COVERAGE"
+else
+  echo "::error::Invalid MINIMUM_COVERAGE: must be a numeric value"
+  exit 1
 fi
 
 # Run Codecov for overall coverage
