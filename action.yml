@@ -39,4 +39,4 @@ branding:
   icon: shield
 runs:
   using: docker
-  image: Dockerfile
+  image: 'docker://ghcr.io/step-security/swift-codecov-action:v0.7.5@sha256:af58a45b0b38026c8381e0687c402a34fd3b96343e33d9b9001f5ff5ad999113' # v0.7.5
