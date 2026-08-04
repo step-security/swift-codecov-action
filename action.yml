@@ -1,0 +1,42 @@
+name: swift-codecov
+description: Runs simple analysis on swift test codecov output.
+author: 'step-security'
+inputs:
+  PROJECT_NAME:
+    description: 'The name of the target project. This must be specified if you would like local dependencies (specified by path in the project manifest) to be left out of coverage numbers. If specified, this must be exactly the same spelling as the root folder of the target project.'
+    required: false
+    default: ''
+  CODECOV_JSON:
+    description: 'The location of the JSON file produced by swift test --enable-code-coverage'
+    required: false
+    default: '.build/debug/codecov/*.json'
+  PRINT_STDOUT:
+    description: 'true by default, but if false then will not output the whole codecov table to stdout.'
+    required: false
+    default: 'true'
+  SORT_ORDER:
+    description: 'filename by default, but if specified otherwise will apply a sort order to the test coverage table. This is only relevant if PRINT_STDOUT is true. Possible values: filename, +cov, -cov'
+    required: false
+    default: 'filename'
+  MINIMUM_COVERAGE:
+    description: 'By default, there is no minimum coverage. Set this to make the script fail if the minimum coverage is not met.'
+    required: false
+  INCLUDE_DEPENDENCIES:
+    description: '`false` by default, but if `true` then coverage numbers will include project dependencies.'
+    required: false
+    default: 'false'
+  INCLUDE_TESTS:
+    description: '`false` by default, but if `true` then coverage numbers will include the percentage of the test files themselves that was exercised.'
+    required: false
+    default: 'false'
+outputs:
+  CODECOV:
+    description: Overall code coverage percent.
+  MINIMUM_COVERAGE:
+    description: Just passing through the `MINIMUM_COVERAGE` input.
+branding:
+  color: orange
+  icon: shield
+runs:
+  using: docker
+  image: Dockerfile
