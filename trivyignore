@@ -1,0 +1,51 @@
+# All entries below are unpatched in Ubuntu 22.04 (status: affected, no Fixed Version).
+# None are reachable in this action's code path — the container only runs
+# swift_codecov.sh which reads a JSON file and calls swift-test-codecov.
+
+# util-linux: TOCTOU in mount — container never mounts anything
+CVE-2026-27456
+
+# binutils/gcc: rust-demangle stack exhaustion — no Rust demangling
+CVE-2022-27943
+
+# jq: NUL truncation with -f flag — action does not use -f flag
+CVE-2026-41256
+
+# jq: signed-int overflow in stack_reallocate — input is GitHub-controlled event payload
+CVE-2026-41257
+
+# jq: NUL in import paths — action does not use jq imports
+CVE-2026-43895
+
+# jq: stack overflow in recursive object merge — action uses simple field extraction only
+CVE-2026-43896
+
+# jq: stack overflow in module loading — action does not use jq modules
+CVE-2026-44777
+
+# libgcrypt: Marvin Attack RSA timing side-channel — no cryptographic operations
+CVE-2024-2236
+
+# libicu: stack buffer overflow in SRBRoot::addTag — no ICU usage
+CVE-2025-5222
+
+# p11-kit: stack exhaustion in RPC attribute parsing — no PKCS#11 usage
+CVE-2026-13757
+
+# pcre2: infinite loop in pcre2test — no pcre2test usage
+CVE-2022-41409
+
+# ncurses: segfault in _nc_wrap_entry — no terminal interaction
+CVE-2023-50495
+
+# systemd-journald: unintended output to terminals — no systemd services run
+CVE-2026-40228
+
+# zstd: buffer overrun in MySQL context — no MySQL, no zstd usage
+CVE-2022-4899
+
+# shadow: improper input validation in chfn — no user management
+CVE-2023-29383
+
+# shadow-utils: subordinate ID configuration — no user management
+CVE-2024-56433
